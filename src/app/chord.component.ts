@@ -11,14 +11,14 @@ export class ChordComponent {
     @Input() name: string;
 
     @Input()
-    set notes(value) {
-        let notes = value
+    set frets(value) {
+        let frets = value
             .split(',')
             .map(x => x == '-' ? null : parseInt(x));
 
         this.parent.addChord({
             name: this.name,
-            notes
+            frets
         });
     }
 

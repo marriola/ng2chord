@@ -74,7 +74,6 @@ export class FretboardComponent {
     }
 
     constructor() {
-        console.log("I AM BORN");
         this._audio = new AudioContext();
     }
 
@@ -96,9 +95,9 @@ export class FretboardComponent {
     }
 
     addChord(chord): void {
-        this._chords[chord.name] = chord.notes;
+        this._chords[chord.name] = chord.frets;
         if (this._currentChord == null) {
-            this._currentChord = chord.notes;
+            this._currentChord = chord.frets;
         }
     }
 

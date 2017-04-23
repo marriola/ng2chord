@@ -1,7 +1,7 @@
 .fretboard {
     margin-top: 20px;
     margin-bottom: 20px;
-    padding-top: 10px;
+    padding-top: 15px;
     padding-bottom: 10px;
     background: #451a1a;
 }
@@ -22,7 +22,7 @@
 .fret {
     position: absolute;
     display: inline-block;
-    height: 30px;
+    height: 35px;
     border-right: 2px solid #ddd;
 }
 
@@ -56,28 +56,3 @@
     width: 0px;
     height: 0px;
 }
-
-/*.fret.f0 { left: 0px; width: 42.36666666666667px; }
-.fret.f1 { left: 44.9px; width: 40px; }
-.fret.f2 { left: 87.26666666666667px; width: 37.766666666666666px; }
-.fret.f3 { left: 127.26666666666667px; width: 35.6333333333333px; }
-.fret.f4 { left: 165.03333333333333px; width: 33.63333333333338px; }
-.fret.f5 { left: 200.66666666666663px; width: 31.76666666666665px; }
-.fret.f6 { left: 234.3px; width: 29.96666666666664px; }
-.fret.f7 { left: 266.06666666666666px; width: 28.300000000000068px; }
-.fret.f8 { left: 296.0333333333333px; width: 26.66666666666663px; }
-.fret.f9 { left: 324.33333333333337px; width: 25.19999999999999px; }
-.fret.f10 { left: 351px; width: 23.80000000000001px; }
-.fret.f11 { left: 376.2px; width: 22.466666666666697px; }
-.fret.f12 { left: 400px; width: 21.166666666666572px; }
-.fret.f13 { left: 422.4666666666667px; width: 20.000000000000114px; }
-.fret.f14 { left: 443.63333333333327px; width: 18.900000000000034px; }
-.fret.f15 { left: 463.6333333333334px; width: 17.799999999999898px; }
-.fret.f16 { left: 482.5333333333334px; width: 16.833333333333428px; }
-.fret.f17 { left: 500.3333333333333px; width: 15.86666666666656px; }
-.fret.f18 { left: 517.1666666666667px; width: 14.966666666666697px; }
-.fret.f19 { left: 533.0333333333333px; width: 14.166666666666629px; }
-.fret.f20 { left: 548px; width: 13.333333333333371px; }
-.fret.f21 { left: 562.1666666666666px; width: 12.600000000000023px; }
-.fret.f22 { left: 574.7666666666689px; width: 12.600000000000023px; }
-.fret.f23 { left: 587.2666666666712px; width: 12.600000000000023px; }*/
