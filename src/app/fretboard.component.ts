@@ -15,6 +15,7 @@ interface Fret {
     styleUrls: ['./fretboard.component.css']
 })
 export class FretboardComponent {
+    private _currentChordName: string;
     private _frets: Array<Fret>;
     private _chords = {};
     private _audio: AudioContext;
@@ -23,6 +24,7 @@ export class FretboardComponent {
     @Input() width: number;
     @Input('fretPositions') _fretPositions: string;
     @Input('strings') _strings: string;
+    @Input('selectorType') selectorType: string;
     
     autoplay: boolean = true;
     playing: boolean = false;
@@ -33,7 +35,7 @@ export class FretboardComponent {
     get frets(): Array<Fret> {
         if (!this._frets) {
             let fretPositions = this._fretPositions.split(',').map(x => parseFloat(x));
-            // The imaginary 0th fret just before the 1st fret has position 0 so that it width can be
+            // The imaginary 0th fret just before the 1st fret has position 0 so that its width can be
             // calculated more conveniently.
             fretPositions[-1] = 0;
 
@@ -89,9 +91,16 @@ export class FretboardComponent {
         }
     }
 
+    selectChord(name) {
+        this._currentChordName = name;
+        this.currentChord = this.chords[name];
+        this.toggleTones(this.autoplay);
+    }
+
     addChord(chord): void {
         this._chords[chord.name] = chord.frets;
         if (this.currentChord == null) {
+            this._currentChordName = chord.name;
             this.currentChord = chord.frets;
         }
     }

@@ -5,5 +5,17 @@ body {
 
 button, select {
     color: #ddd;
-    background-color: #222;
+    background-color: #333;
+}
+
+button {
+    outline: none;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+button:active {
+    color: #333;
+    background-color: #ddd;
+    border: 1px solid #333;
 }
