@@ -1,0 +1,34 @@
+Chords
+
+<select name="ddlChord" [(ngModel)]="_currentChord" (ngModelChange)="toggleTone(autoplay && true)">
+    <option *ngFor="let name of chordNames" [ngValue]="chords[name]">{{name}}</option>
+</select>
+
+<label>
+    <input type="checkbox" [(ngModel)]="autoplay" />
+    Autoplay
+</label>
+
+<div class="fretboard" [style.width.px]="width" [style.position]="'relative'">
+    <div *ngFor="let point of currentChord; let string = index"
+        [class]="point == null ? 'string muted' : ('string s' + string)">
+        <span *ngFor="let fret of frets"
+            [class]="fret == point ? 'fret fretted' : 'fret'"
+            [style.left.px]="fretPositions[fret-1]"
+            [style.width.px]="fretWidths[fret]"
+            [style.top.px]="string * 20"
+            (mouseover)="mouseover(string, fret)"
+            (click)="selectFret(string, fret)"></span>
+        <span class="open-string" [class.open]="point == -1"
+              (click)="selectFret(string, -1)"
+              (mouseover)="mouseover(string, -1)"></span>
+    </div>
+</div>
+
+<button type="button" (click)="toggleTone()">
+    {{ playing ? 'Stop' : 'Play' }}
+</button>
+
+<div>
+    {{getStringAndFret()}}
+</div>

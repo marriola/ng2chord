@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #000;
+    color: #ddd;
+}
+
+button, select {
+    color: #ddd;
+    background-color: #222;
+}
