@@ -1,6 +1,6 @@
 Chords
 
-<select name="ddlChord" [(ngModel)]="currentChord" (ngModelChange)="toggleTone(autoplay && true)">
+<select name="ddlChord" [(ngModel)]="currentChord" (ngModelChange)="toggleTones(autoplay)">
     <option *ngFor="let name of chordNames" [ngValue]="chords[name]">{{name}}</option>
 </select>
 
@@ -11,7 +11,7 @@ Chords
 
 <div class="fretboard" [style.width.px]="width" [style.position]="'relative'">
     <div *ngFor="let point of currentChord; let string = index"
-        [class]="point == null ? 'string muted' : ('string s' + string)">
+        [class]="'string s' + string" [class.muted]="point == null">
         <span *ngFor="let fret of frets"
             class="fret"
             [class.open-string]="fret.index == 0"
@@ -24,7 +24,7 @@ Chords
     </div>
 </div>
 
-<button type="button" (click)="toggleTone()">
+<button type="button" (click)="toggleTones()">
     {{ playing ? 'Stop' : 'Play' }}
 </button>
 

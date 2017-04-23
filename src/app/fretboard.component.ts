@@ -41,17 +41,17 @@ export class FretboardComponent {
                 return x - arr[i - 1];
             });
 
-            this._frets = new Array(24).fill(0).map((x, i) => ({
+            this._frets = new Array(fretPositions.length).fill(0).map((x, i) => ({
                 index: i + 1,
                 width: fretWidths[i],
                 left: fretPositions[i - 1]
             }));
 
-            this._frets = [{
-                index: 0,
-                width: null,
-                left: null
-            }].concat(this._frets);
+            this._frets.splice(0, 0, {
+               index: 0,
+               width: null,
+               left: null 
+            });
         }
 
         return this._frets;
@@ -85,7 +85,7 @@ export class FretboardComponent {
         this.currentChord[string] = fret;
 
         if (this.autoplay) {
-            this.toggleTone(true);
+            this.toggleTones(true);
         }
     }
 
@@ -115,7 +115,7 @@ export class FretboardComponent {
         this._oscillators = [];
     }
 
-    toggleTone(playing = !this.playing) {
+    toggleTones(playing = !this.playing) {
         if (this.playing) {
             this.stopTones();
         }
@@ -140,8 +140,6 @@ export class FretboardComponent {
                 stringIndex++;
             }
             // console.groupEnd();
-        } else {
-            this.stopTones();
         }
     }
 }
