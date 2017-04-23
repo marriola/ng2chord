@@ -1,6 +1,6 @@
 Chords
 
-<select name="ddlChord" [(ngModel)]="_currentChord" (ngModelChange)="toggleTone(autoplay && true)">
+<select name="ddlChord" [(ngModel)]="currentChord" (ngModelChange)="toggleTone(autoplay && true)">
     <option *ngFor="let name of chordNames" [ngValue]="chords[name]">{{name}}</option>
 </select>
 
@@ -13,15 +13,14 @@ Chords
     <div *ngFor="let point of currentChord; let string = index"
         [class]="point == null ? 'string muted' : ('string s' + string)">
         <span *ngFor="let fret of frets"
-            [class]="fret == point ? 'fret fretted' : 'fret'"
-            [style.left.px]="fretPositions[fret-1]"
-            [style.width.px]="fretWidths[fret]"
-            [style.top.px]="string * 20"
-            (mouseover)="mouseover(string, fret)"
-            (click)="selectFret(string, fret)"></span>
-        <span class="open-string" [class.open]="point == -1"
-              (click)="selectFret(string, -1)"
-              (mouseover)="mouseover(string, -1)"></span>
+            class="fret"
+            [class.open-string]="fret.index == 0"
+            [class.fretted]="fret.index == point"
+            [style.left.px]="fret.left"
+            [style.width.px]="fret.width"
+            [style.top.px]="fret.index == 0 ? null : string * 20"
+            (mouseover)="mouseover(string, fret.index)"
+            (click)="selectFret(string, fret.index)"></span>
     </div>
 </div>
 

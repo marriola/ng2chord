@@ -23,6 +23,9 @@
     position: absolute;
     display: inline-block;
     height: 35px;
+}
+
+.fret:not(.open-string) {
     border-right: 2px solid #ddd;
 }
 
@@ -45,13 +48,13 @@
     display: inline-block;
     width: 10px;
     height: 10px;
-    top: -5px;
+    top: -6px;
     left: -5px;
 }
 
-.open-string:hover, .open-string.open {
+.open-string:hover, .open-string.fretted {
     opacity: 1;
-    border: 5px solid #dd4;
+    border: 5px solid #db0;
     border-radius: 5px;
     width: 0px;
     height: 0px;

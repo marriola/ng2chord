@@ -3,18 +3,20 @@ import { notes, getNoteIndex } from '../util';
 
 type Chord = Array<number>;
 
+interface Fret {
+    index: number;
+    width: number;
+    left: number;
+}
+
 @Component({
     selector: 'fretboard',
     templateUrl: './fretboard.component.html',
     styleUrls: ['./fretboard.component.css']
 })
 export class FretboardComponent {
-    private _fretPositionsArray: Array<number> = null;
-    private _fretWidths: Array<number> = null;
-    private _currentChord: Chord = null;
-    private _currentChordAdjusted: Chord = null;
-    private _frets: Array<number>;
-    private _chords = {}
+    private _frets: Array<Fret>;
+    private _chords = {};
     private _audio: AudioContext;
     private _oscillators: Array<OscillatorNode> = [];
 
@@ -24,12 +26,32 @@ export class FretboardComponent {
     
     autoplay: boolean = true;
     playing: boolean = false;
+    currentChord: Chord = null;
     currentString: number = null;
     currentFret: number = null;
     
-    get frets(): Array<number> {
+    get frets(): Array<Fret> {
         if (!this._frets) {
-            this._frets = new Array(24).fill(0).map((x, i) => i);
+            let fretPositions = this._fretPositions.split(',').map(x => parseFloat(x));
+            // The imaginary 0th fret just before the 1st fret has position 0 so that it width can be
+            // calculated more conveniently.
+            fretPositions[-1] = 0;
+
+            let fretWidths = fretPositions.map((x, i, arr) => {
+                return x - arr[i - 1];
+            });
+
+            this._frets = new Array(24).fill(0).map((x, i) => ({
+                index: i + 1,
+                width: fretWidths[i],
+                left: fretPositions[i - 1]
+            }));
+
+            this._frets = [{
+                index: 0,
+                width: null,
+                left: null
+            }].concat(this._frets);
         }
 
         return this._frets;
@@ -43,32 +65,6 @@ export class FretboardComponent {
         return this._strings.split(',');
     }
 
-    get fretPositions(): Array<number> {
-        if (!this._fretPositionsArray) {
-            this._fretPositionsArray = this._fretPositions.split(',').map(x => parseFloat(x));
-            // -1th fret has position 0 so that 0th fret's width can be calculated more conveniently
-            this._fretPositionsArray[-1] = 0;
-        }
-
-        return this._fretPositionsArray;
-    }
-
-    get fretWidths(): Array<number> {
-        if (!this._fretWidths) {
-            this._fretWidths = this.fretPositions.map((x, i) => {
-                return this.fretPositions[i] - this.fretPositions[i - 1];
-            });
-        }
-
-        return this._fretWidths;
-    }
-
-    get currentChord(): Chord {
-        return this._currentChord.map(x => {
-            return x == null ? null : x - 1;
-        });
-    }
-
     get chordNames(): Array<string> {
         return Object.getOwnPropertyNames(this.chords);
     }
@@ -79,15 +75,14 @@ export class FretboardComponent {
 
     mouseover(string, fret): void {
         this.currentString = string;
-        this.currentFret = fret;
+        this.currentFret = fret - 1;
     }
 
     selectFret(string, fret): void {
-        if (this._currentChord[string] == fret + 1) {
-            this._currentChord[string] = null;
-        } else {
-            this._currentChord[string] = fret + 1;
+        if (this.currentChord[string] == fret) {
+            fret = null;
         }
+        this.currentChord[string] = fret;
 
         if (this.autoplay) {
             this.toggleTone(true);
@@ -96,8 +91,8 @@ export class FretboardComponent {
 
     addChord(chord): void {
         this._chords[chord.name] = chord.frets;
-        if (this._currentChord == null) {
-            this._currentChord = chord.frets;
+        if (this.currentChord == null) {
+            this.currentChord = chord.frets;
         }
     }
 
@@ -130,7 +125,7 @@ export class FretboardComponent {
         if (this.playing) {
             let stringIndex = 0;
             // console.group('chord');
-            for (let fret of this._currentChord) {
+            for (let fret of this.currentChord) {
                 if (fret !== null) {
                     let noteIndex = getNoteIndex(this.strings[stringIndex]) + fret;
                     let note = notes[noteIndex];
