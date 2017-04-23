@@ -3,9 +3,14 @@ body {
     color: #ddd;
 }
 
-button, select {
+button, input, select {
     color: #ddd;
     background-color: #333;
+}
+
+input[type='text'] {
+    outline: none;
+    border: 1px solid #ddd;
 }
 
 button {
@@ -18,4 +23,29 @@ button:active {
     color: #333;
     background-color: #ddd;
     border: 1px solid #333;
+}
+
+.box, .panel {
+    display: inline-block;
+    border-radius: 5px;
+    color: black;
+}
+
+.panel {
+    background-color: #777766;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
+.box {
+    cursor: pointer;
+    background-color: #aaa;
+    font-size: 10pt;
+    padding: 3px;
+    margin-right: 3px;
+}
+
+.box:hover, .box.selected {
+    background-color: #444;
+    color: #aaa;
 }

@@ -61,28 +61,3 @@
     width: 0px;
     height: 0px;
 }
-
-.box, .panel {
-    display: inline-block;
-    border-radius: 5px;
-    color: black;
-}
-
-.panel {
-    background-color: #777766;
-    padding: 5px;
-    margin-bottom: 5px;
-}
-
-.box {
-    cursor: pointer;
-    background-color: #aaa;
-    font-size: 10pt;
-    padding: 3px;
-    margin-right: 3px;
-}
-
-.box:hover, .box.selected {
-    background-color: #444;
-    color: #aaa;
-}

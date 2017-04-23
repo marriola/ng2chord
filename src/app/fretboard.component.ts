@@ -10,6 +10,11 @@ interface Fret {
     left: number;
 }
 
+interface Tone {
+    note: string;
+    frequency: number;
+}
+
 @Component({
     selector: 'fretboard',
     templateUrl: './fretboard.component.html',
@@ -42,7 +47,6 @@ export class FretboardComponent {
     currentString: number = null;
     currentFret: number = null;
     scaleHighlight: string = null;
-    newChordName: string = null;
     
     get frets(): Array<Fret> {
         if (!this._frets) {
@@ -123,7 +127,7 @@ export class FretboardComponent {
         }
     }
 
-    selectChord(name) {
+    onSelectChord(name) {
         this._currentChordName = name;
         this.currentChord = this.chords[name];
         this.toggleTones(this.autoplay);
@@ -137,11 +141,10 @@ export class FretboardComponent {
         }
     }
 
-    newChord(): void {
-        this._chords[this.newChordName] = new Array(this.strings.length).fill(null);
-        this._currentChordName = this.newChordName;
-        this.currentChord = this._chords[this.newChordName];
-        this.newChordName = null;
+    onNewChord(name): void {
+        this._chords[name] = new Array(this.strings.length).fill(null);
+        this._currentChordName = name;
+        this.currentChord = this._chords[name];
     }
 
     addScale(scale): void {
@@ -200,33 +203,40 @@ export class FretboardComponent {
         return osc;
     }
 
-    playScale(): void {
-        let timeout = 0;
-        let increment = 350;
+    batchTones(length: number, tones: Array<Tone>, callback: (tone) => void, done: () => void): void {
+        let timeout: number = 0;
 
         this.stopTones();
-        this.view = this.View.Scale;
-
         let osc = this.addTone(0);
         osc.start();
 
-        for (let noteName of this.currentScale) {
+        for (let tone of tones) {
+            console.log(timeout);
             setTimeout(() => {
-                this.scaleHighlight = noteName;
-                let noteIndex = getNoteIndex(noteName);
-                osc.frequency.value = notes[noteIndex].frequency;
-
-                console.log(noteName, notes[noteIndex].frequency);
+                osc.frequency.value = tone.frequency;
+                callback(tone);
             }, timeout);
 
-            timeout += increment;
+            timeout += length;
         }
 
-        setTimeout(() => {
-            this.stopTones();
-            this.scaleHighlight = null;
-            this.view = this.View.Chord;
-        }, timeout + increment);
+        setTimeout(done, timeout + length);
+    }
+
+    onBatchTones(noteNames: Array<string>): void {
+        let tones = noteNames.map(name => notes[getNoteIndex(name)]);
+        let length = 350;
+
+        this.view = this.View.Scale;
+        this.batchTones(length, tones,
+            (tone) => {
+                this.scaleHighlight = tone.note;
+            },
+            () => {
+                this.stopTones();
+                this.scaleHighlight = null;
+                this.view = this.View.Chord;
+            });
     }
 
     getNoteName(string, fret) {

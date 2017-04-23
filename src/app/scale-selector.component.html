@@ -1,0 +1,9 @@
+<div class="panel">
+    <strong>{{currentScaleName}}</strong>
+    <div>
+        {{ (scales[currentScaleName] || []).join(' ') }}
+    </div>
+    <button type="button" (click)="playScale(currentScaleName)">
+        Play
+    </button>
+</div>

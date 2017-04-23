@@ -1,32 +1,30 @@
-Chords
-
-<select *ngIf="selectorType == 'list'" name="ddlChord" [(ngModel)]="currentChord" (ngModelChange)="toggleTones(autoplay)">
-    <option *ngFor="let name of chordNames" [ngValue]="chords[name]">{{name}}</option>
-</select>
-
-<div *ngIf="selectorType == 'buttons'">
-    <a *ngFor="let name of chordNames"
-       class="box"
-       [class.selected]="_currentChordName == name"
-       (click)="selectChord(name)">
-        {{name}}
-    </a>
-</div>
-
-<input type="text" [(ngModel)]="newChordName" />
-<button type="button" (click)="newChord()">
-    New Chord
-</button>
 
 <label>
     <input type="checkbox" [(ngModel)]="autoplay" />
     Autoplay
 </label>
+<br/>
+
+<chord-selector
+    [chords]="chords"
+    [chordNames]="chordNames"
+    [currentChordName]="_currentChordName"
+    [selectorType]="selectorType"
+    (select)="onSelectChord($event)"
+    (new)="onNewChord($event)">
+</chord-selector>
+
+<scale-selector
+    [scales]="_scales"
+    [(currentScaleName)]="_currentScaleName"
+    (batchTones)="onBatchTones($event)">
+</scale-selector>
+<br/>
 
 <div class="fretboard" [style.width.px]="width" [style.position]="'relative'">
-    <div *ngFor="let point of currentChord; let string = index"
-        [class]="'string s' + string">
-        <span *ngFor="let fret of frets"
+    <div *ngFor="let point of currentChord; let string = index" [class]="'string s' + string">
+        <span
+            *ngFor="let fret of frets"
             class="fret"
             [class.highlight]="view == View.Scale && fret.index < 5 && scaleHighlight == getNoteName(string, fret.index)"
             [class.open-string]="fret.index == 0"
@@ -40,17 +38,6 @@ Chords
 </div>
 
 <div>{{stringAndFret}}</div>
-
-<div class="panel">
-    <h3>{{_currentScaleName}}</h3>
-    <div>
-        {{ (currentScale || []).join(' ') }}
-    </div>
-    <button type="button" (click)="playScale()">
-        Play
-    </button>
-</div>
-<br/>
 
 <button type="button" (click)="toggleTones()">
     {{ playing ? 'Stop' : 'Play' }}

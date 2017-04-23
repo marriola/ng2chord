@@ -5,6 +5,8 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { FretboardComponent } from './fretboard.component';
+import { ChordSelectorComponent } from './chord-selector.component';
+import { ScaleSelectorComponent } from './scale-selector.component';
 import { ChordComponent } from './chord.component';
 import { ScaleComponent } from './scale.component';
 
@@ -12,6 +14,8 @@ import { ScaleComponent } from './scale.component';
   declarations: [
     AppComponent,
     FretboardComponent,
+    ChordSelectorComponent,
+    ScaleSelectorComponent,
     ChordComponent,
     ScaleComponent
   ],
