@@ -16,7 +16,9 @@
 
 <scale-selector
     [scales]="_scales"
+    [scaleNames]="scaleNames"
     [(currentScaleName)]="_currentScaleName"
+    (select)="onSelectScale($event)"
     (batchTones)="onBatchTones($event)">
 </scale-selector>
 <br/>

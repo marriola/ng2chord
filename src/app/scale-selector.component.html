@@ -1,8 +1,13 @@
 <div class="panel">
-    <strong>{{currentScaleName}}</strong>
-    <div>
-        {{ (scales[currentScaleName] || []).join(' ') }}
-    </div>
+    <strong>Scales</strong><br/>
+
+    <select [(ngModel)]="currentScaleName" (ngModelChange)="selectScale()">
+        <option *ngFor="let name of scaleNames" [value]="name">
+            {{name}} [ {{ (scales[name] || []).join(' ') }} ]
+        </option>
+    </select>
+    <br/>
+
     <button type="button" (click)="playScale(currentScaleName)">
         Play
     </button>

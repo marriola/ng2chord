@@ -133,6 +133,11 @@ export class FretboardComponent {
         this.toggleTones(this.autoplay);
     }
 
+    onSelectScale(name) {
+        this._currentScaleName = name;
+        this.currentScale = this._scales[name];
+    }
+
     addChord(chord): void {
         this._chords[chord.name] = chord.frets;
         if (this.currentChord == null) {
@@ -211,7 +216,6 @@ export class FretboardComponent {
         osc.start();
 
         for (let tone of tones) {
-            console.log(timeout);
             setTimeout(() => {
                 osc.frequency.value = tone.frequency;
                 callback(tone);

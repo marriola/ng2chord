@@ -6,11 +6,17 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 })
 export class ScaleSelectorComponent {
     @Input() scales;
+    @Input() scaleNames: Array<string>;
     @Input() currentScaleName: string;
 
-    @Output() batchTones: EventEmitter<Array<string>> = new EventEmitter()
+    @Output() select: EventEmitter<string> = new EventEmitter();
+    @Output() batchTones: EventEmitter<Array<string>> = new EventEmitter();
 
     playScale(name): void {
         this.batchTones.emit(this.scales[name]);
+    }
+
+    selectScale(): void {
+        this.select.emit(this.currentScaleName);
     }
 }
