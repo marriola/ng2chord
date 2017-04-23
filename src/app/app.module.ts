@@ -6,12 +6,14 @@ import { HttpModule } from '@angular/http';
 import { AppComponent } from './app.component';
 import { FretboardComponent } from './fretboard.component';
 import { ChordComponent } from './chord.component';
+import { ScaleComponent } from './scale.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     FretboardComponent,
-    ChordComponent
+    ChordComponent,
+    ScaleComponent
   ],
   imports: [
     BrowserModule,

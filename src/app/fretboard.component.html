@@ -4,11 +4,6 @@ Chords
     <option *ngFor="let name of chordNames" [ngValue]="chords[name]">{{name}}</option>
 </select>
 
-<label>
-    <input type="checkbox" [(ngModel)]="autoplay" />
-    Autoplay
-</label>
-
 <div *ngIf="selectorType == 'buttons'">
     <a *ngFor="let name of chordNames"
        class="box"
@@ -18,13 +13,24 @@ Chords
     </a>
 </div>
 
+<input type="text" [(ngModel)]="newChordName" />
+<button type="button" (click)="newChord()">
+    New Chord
+</button>
+
+<label>
+    <input type="checkbox" [(ngModel)]="autoplay" />
+    Autoplay
+</label>
+
 <div class="fretboard" [style.width.px]="width" [style.position]="'relative'">
     <div *ngFor="let point of currentChord; let string = index"
-        [class]="'string s' + string" [class.muted]="point == null">
+        [class]="'string s' + string">
         <span *ngFor="let fret of frets"
             class="fret"
+            [class.highlight]="view == View.Scale && fret.index < 5 && scaleHighlight == getNoteName(string, fret.index)"
             [class.open-string]="fret.index == 0"
-            [class.fretted]="fret.index == point"
+            [class.fretted]="(view == View.Chord && fret.index == point) || (view == View.Scale && fret.index < 5 && currentScale.includes(getNoteName(string, fret.index)))"
             [style.left.px]="fret.left"
             [style.width.px]="fret.width"
             [style.top.px]="fret.index == 0 ? null : string * 20"
@@ -33,7 +39,18 @@ Chords
     </div>
 </div>
 
-<div>{{getStringAndFret()}}</div>
+<div>{{stringAndFret}}</div>
+
+<div class="panel">
+    <h3>{{_currentScaleName}}</h3>
+    <div>
+        {{ (currentScale || []).join(' ') }}
+    </div>
+    <button type="button" (click)="playScale()">
+        Play
+    </button>
+</div>
+<br/>
 
 <button type="button" (click)="toggleTones()">
     {{ playing ? 'Stop' : 'Play' }}

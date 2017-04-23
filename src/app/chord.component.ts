@@ -6,8 +6,6 @@ import { FretboardComponent } from './fretboard.component';
     template: ''
 })
 export class ChordComponent {
-    parent: FretboardComponent;
-
     @Input() name: string;
 
     @Input()
@@ -22,7 +20,6 @@ export class ChordComponent {
         });
     }
 
-    constructor(@Host() parent: FretboardComponent) {
-        this.parent = parent;
+    constructor(@Host() private parent: FretboardComponent) {
     }
 }

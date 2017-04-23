@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 import { notes, getNoteIndex } from '../util';
 
 type Chord = Array<number>;
+type Scale = Array<string>;
 
 interface Fret {
     index: number;
@@ -15,9 +16,16 @@ interface Fret {
     styleUrls: ['./fretboard.component.css']
 })
 export class FretboardComponent {
+    View = {
+        Chord: 0,
+        Scale: 1
+    }
+
     private _currentChordName: string;
+    private _currentScaleName: string;
     private _frets: Array<Fret>;
     private _chords = {};
+    private _scales = {};
     private _audio: AudioContext;
     private _oscillators: Array<OscillatorNode> = [];
 
@@ -26,11 +34,15 @@ export class FretboardComponent {
     @Input('strings') _strings: string;
     @Input('selectorType') selectorType: string;
     
+    view = this.View.Chord;
     autoplay: boolean = true;
     playing: boolean = false;
     currentChord: Chord = null;
+    currentScale: Scale = null;
     currentString: number = null;
     currentFret: number = null;
+    scaleHighlight: string = null;
+    newChordName: string = null;
     
     get frets(): Array<Fret> {
         if (!this._frets) {
@@ -63,12 +75,32 @@ export class FretboardComponent {
         return this._chords;
     }
 
+    get scales() {
+        return this._scales;
+    }
+
     get strings(): Array<string> {
         return this._strings.split(',');
     }
 
     get chordNames(): Array<string> {
         return Object.getOwnPropertyNames(this.chords);
+    }
+
+    get scaleNames(): Array<string> {
+        return Object.getOwnPropertyNames(this.scales);
+    }
+
+    get stringAndFret(): string {
+        if (this.currentString === null || this.currentFret === null) {
+            return '';
+        }
+
+        let fret = this.currentFret == -1 ? 'open' : `fret ${this.currentFret + 1}`;
+        let noteIndex = notes.findIndex(x => x.note == this.strings[this.currentString]);
+        let note = notes[noteIndex + this.currentFret + 1].note;
+
+        return `${this.strings[this.currentString]} string, ${fret} (${note})`;
     }
 
     constructor() {
@@ -105,19 +137,28 @@ export class FretboardComponent {
         }
     }
 
-    getStringAndFret(): string {
-        if (this.currentString === null || this.currentFret === null) {
-            return '';
-        }
-
-        let fret = this.currentFret == -1 ? 'open' : `fret ${this.currentFret + 1}`;
-        let noteIndex = notes.findIndex(x => x.note == this.strings[this.currentString]);
-        let note = notes[noteIndex + this.currentFret + 1].note;
-
-        return `${this.strings[this.currentString]} string, ${fret} (${note})`;
+    newChord(): void {
+        this._chords[this.newChordName] = new Array(this.strings.length).fill(null);
+        this._currentChordName = this.newChordName;
+        this.currentChord = this._chords[this.newChordName];
+        this.newChordName = null;
     }
 
-    stopTones() {
+    addScale(scale): void {
+        this._scales[scale.name] = scale.notes;
+        if (this.currentScale == null) {
+            this._currentScaleName = scale.name;
+            this.currentScale = scale.notes;
+        }
+    }
+
+    startTones(): void {
+        for (let osc of this._oscillators) {
+            osc.start();
+        }
+    }
+
+    stopTones(): void {
         for (let osc of this._oscillators) {
             osc.stop();
         }
@@ -139,16 +180,57 @@ export class FretboardComponent {
                     let noteIndex = getNoteIndex(this.strings[stringIndex]) + fret;
                     let note = notes[noteIndex];
                     // console.log(`${note.note} ${note.frequency}`);
-                    let osc = this._audio.createOscillator();
-                    this._oscillators.push(osc);
-                    osc.connect(this._audio.destination);
-                    osc.type = 'sine';
-                    osc.frequency.value = note.frequency;
-                    osc.start();
+                    this.addTone(note.frequency);
                 }
                 stringIndex++;
             }
             // console.groupEnd();
+
+            this.startTones();
         }
+    }
+
+    addTone(freq: number, type: string = 'sine'): OscillatorNode {
+        let osc = this._audio.createOscillator();
+        this._oscillators.push(osc);
+        osc.connect(this._audio.destination);
+        osc.type = type;
+        osc.frequency.value = freq;
+
+        return osc;
+    }
+
+    playScale(): void {
+        let timeout = 0;
+        let increment = 350;
+
+        this.stopTones();
+        this.view = this.View.Scale;
+
+        let osc = this.addTone(0);
+        osc.start();
+
+        for (let noteName of this.currentScale) {
+            setTimeout(() => {
+                this.scaleHighlight = noteName;
+                let noteIndex = getNoteIndex(noteName);
+                osc.frequency.value = notes[noteIndex].frequency;
+
+                console.log(noteName, notes[noteIndex].frequency);
+            }, timeout);
+
+            timeout += increment;
+        }
+
+        setTimeout(() => {
+            this.stopTones();
+            this.scaleHighlight = null;
+            this.view = this.View.Chord;
+        }, timeout + increment);
+    }
+
+    getNoteName(string, fret) {
+        let noteIndex = getNoteIndex(this.strings[string]) + fret;
+        return notes[noteIndex].note;
     }
 }

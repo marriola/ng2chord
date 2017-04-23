@@ -33,12 +33,14 @@
     background: url(/assets/fret-point.png) no-repeat center;
 }
 
-.fret:not(.fretted):hover {
+.fret:not(.fretted):hover,
+.fret:not(.fretted).highlight {
     background-color: #dd4;
     opacity: 0.4;
 }
 
-.fret.fretted:hover {
+.fret.fretted:hover,
+.fret.fretted.highlight {
     background: #dd4 url(/assets/fret-point.png) no-repeat center;
     opacity: 0.6;
 }
@@ -60,11 +62,21 @@
     height: 0px;
 }
 
+.box, .panel {
+    display: inline-block;
+    border-radius: 5px;
+    color: black;
+}
+
+.panel {
+    background-color: #777766;
+    padding: 5px;
+    margin-bottom: 5px;
+}
+
 .box {
     cursor: pointer;
-    border-radius: 5px;
     background-color: #aaa;
-    color: black;
     font-size: 10pt;
     padding: 3px;
     margin-right: 3px;
