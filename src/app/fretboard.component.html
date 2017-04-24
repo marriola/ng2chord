@@ -28,9 +28,9 @@
         <span
             *ngFor="let fret of frets"
             class="fret"
-            [class.highlight]="view == View.Scale && fret.index < 5 && scaleHighlight == getNoteName(string, fret.index)"
+            [class.highlight]="isHighlighted(string, fret.index, point)"
             [class.open-string]="fret.index == 0"
-            [class.fretted]="(view == View.Chord && fret.index == point) || (view == View.Scale && fret.index < 5 && currentScale.includes(getNoteName(string, fret.index)))"
+            [class.fretted]="isFretted(string, fret.index, point)"
             [style.left.px]="fret.left"
             [style.width.px]="fret.width"
             [style.top.px]="fret.index == 0 ? null : string * 20"

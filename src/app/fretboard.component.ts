@@ -249,4 +249,14 @@ export class FretboardComponent {
         let noteIndex = getNoteIndex(this.strings[string]) + fret;
         return notes[noteIndex].note;
     }
+
+    isHighlighted(string, fret, point) {
+        return this.view == this.View.Scale && fret < 5 &&
+            this.scaleHighlight == this.getNoteName(string, fret);
+    }
+
+    isFretted(string, fret, point) {
+        return (this.view == this.View.Chord && fret == point) ||
+            (this.view == this.View.Scale && fret < 5 && this.currentScale.includes(this.getNoteName(string, fret)));
+    }
 }
