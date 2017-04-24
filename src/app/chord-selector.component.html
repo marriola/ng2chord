@@ -1,14 +1,15 @@
 <div class="panel">
     <strong>Chords</strong>
-    <select *ngIf="selectorType == 'list'" name="ddlChord" [(ngModel)]="currentChord" (ngModelChange)="toggleTones(autoplay)">
-        <option *ngFor="let name of chordNames" [ngValue]="chords[name]">{{name}}</option>
-    </select>
+    <div *ngIf="selectorType == 'list'">
+        <select name="ddlChord" [(ngModel)]="currentChordName" (ngModelChange)="selectChord(currentChordName)">
+            <option *ngFor="let name of chordNames" [ngValue]="name">{{name}}</option>
+        </select>
+    </div>
 
     <div *ngIf="selectorType == 'buttons'">
         <a *ngFor="let name of chordNames"
-        class="box"
-        [class.selected]="currentChordName == name"
-        (click)="selectChord(name)">
+            class="box" [class.selected]="currentChordName == name"
+            (click)="selectChord(name)">
             {{name}}
         </a>
     </div>
