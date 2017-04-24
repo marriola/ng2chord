@@ -224,7 +224,10 @@ export class FretboardComponent {
             timeout += length;
         }
 
-        setTimeout(done, timeout + length);
+        setTimeout(() => {
+            this.stopTones();
+            done();
+        }, timeout + length);
     }
 
     onBatchTones(noteNames: Array<string>): void {
@@ -237,7 +240,6 @@ export class FretboardComponent {
                 this.scaleHighlight = tone.note;
             },
             () => {
-                this.stopTones();
                 this.scaleHighlight = null;
                 this.view = this.View.Chord;
             });

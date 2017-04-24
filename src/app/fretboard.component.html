@@ -1,4 +1,3 @@
-
 <label>
     <input type="checkbox" [(ngModel)]="autoplay" />
     Autoplay
@@ -13,6 +12,7 @@
     (select)="onSelectChord($event)"
     (new)="onNewChord($event)">
 </chord-selector>
+<br/>
 
 <scale-selector
     [scales]="_scales"

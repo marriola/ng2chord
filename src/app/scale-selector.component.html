@@ -1,5 +1,7 @@
 <div class="panel">
-    <strong>Scales</strong><br/>
+    <div class="title">
+        Scales
+    </div>
 
     <select [(ngModel)]="currentScaleName" (ngModelChange)="selectScale()">
         <option *ngFor="let name of scaleNames" [value]="name">
