@@ -63,3 +63,18 @@
     top: -6px;
     left: -5px;
 }
+
+.dot {
+    position: absolute;
+    top: -20px;
+}
+
+.dot::after {
+    position: relative;
+    content: '•';
+    left: -1px;
+}
+
+.dot.double::after {
+    content: '••';
+}

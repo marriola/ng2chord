@@ -34,6 +34,7 @@ export class FretboardComponent {
     private _scales = {};
     private _stringsArray: Array<string> = [];
     private _dotPositionsArray: Array<number>;
+    private _doubleDotPositionsArray: Array<number>;
 
     @Input() width: number;
     @Input('fretPositions') _fretPositions: string;
@@ -46,6 +47,15 @@ export class FretboardComponent {
 
     get dotPositions(): Array<number> {
         return this._dotPositionsArray;
+    }
+
+    @Input('doubleDotPositions')
+    set _doubleDotPositions(value: string) {
+        this._doubleDotPositionsArray = value.split(',').map(x => parseInt(x));
+    }
+
+    get doubleDotPositions(): Array<number> {
+        return this._doubleDotPositionsArray;
     }
 
     @Input('strings')

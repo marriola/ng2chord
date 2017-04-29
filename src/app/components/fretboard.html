@@ -39,6 +39,20 @@
     </div>
 </div>
 
+<div style="position: relative;">
+    <span
+        *ngFor="let fret of frets"
+        class="dot"
+        [style.display]="dotPositions.includes(fret.index) ? 'inline' : 'none'"
+        [style.left.px]="fret.left + fret.width / 2"></span>
+
+    <span
+        *ngFor="let fret of frets"
+        class="dot double"
+        [style.display]="doubleDotPositions.includes(fret.index) ? 'inline' : 'none'"
+        [style.left.px]="fret.left + fret.width / 2 - 3"></span>
+</div>
+
 <div>{{stringAndFret}}</div>
 
 <button type="button" (click)="_player.toggleTones()">
