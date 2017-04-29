@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
-import { AppComponent } from './app.component';
-import { FretboardComponent } from './fretboard.component';
-import { ChordSelectorComponent } from './chord-selector.component';
-import { ScaleSelectorComponent } from './scale-selector.component';
-import { ChordComponent } from './chord.component';
-import { ScaleComponent } from './scale.component';
+import { AppComponent } from './components/app';
+import { FretboardComponent } from './components/fretboard';
+import { ChordSelectorComponent } from './components/chord-selector';
+import { ScaleSelectorComponent } from './components/scale-selector';
+import { ChordComponent } from './components/chord';
+import { ScaleComponent } from './components/scale';
 
 @NgModule({
   declarations: [

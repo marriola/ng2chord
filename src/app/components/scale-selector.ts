@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'scale-selector',
-    templateUrl: './scale-selector.component.html'
+    templateUrl: './scale-selector.html'
 })
 export class ScaleSelectorComponent {
     @Input() scales;

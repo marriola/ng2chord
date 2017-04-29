@@ -1,5 +1,5 @@
 import { Component, Host, Input } from '@angular/core';
-import { FretboardComponent } from './fretboard.component';
+import { FretboardComponent } from './fretboard';
 
 @Component({
     selector: 'chord',

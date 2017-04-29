@@ -35,12 +35,13 @@
             [style.width.px]="fret.width"
             [style.top.px]="fret.index == 0 ? null : string * 20"
             (mouseover)="mouseover(string, fret.index)"
-            (click)="selectFret(string, fret.index)"></span>
+            (click)="selectFret(string, fret.index)">
+        </span>
     </div>
 </div>
 
 <div>{{stringAndFret}}</div>
 
-<button type="button" (click)="toggleTones()">
-    {{ playing ? 'Stop' : 'Play' }}
+<button type="button" (click)="_player.toggleTones()">
+    {{ _player.playing ? 'Stop' : 'Play' }}
 </button>

@@ -4,7 +4,7 @@ type Chord = Array<number>;
 
 @Component({
     selector: 'chord-selector',
-    templateUrl: './chord-selector.component.html'
+    templateUrl: './chord-selector.html'
 })
 export class ChordSelectorComponent {
     @Input() selectorType: string;
