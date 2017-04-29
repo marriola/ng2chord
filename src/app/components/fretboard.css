@@ -29,19 +29,29 @@
     border-right: 2px solid #ddd;
 }
 
-.fret.fretted {
-    background: url(/assets/fret-point.png) no-repeat center;
+.fret.fretted::after {
+    content: '';
+    display: inline-block;
+    position: relative;
+    left: calc(50% - 5px);
+    top: 8px;
+    border-radius: 10px;
+    border-color: #dd4;
+    border: 5px solid #dd4;
 }
 
-.fret:not(.fretted):hover,
-.fret:not(.fretted).highlight {
+.fret.open-string.fretted::after {
+    top: calc(50% - 5px);
+}
+
+.fret:hover,
+.fret.highlight {
     background-color: #dd4;
     opacity: 0.4;
 }
 
 .fret.fretted:hover,
 .fret.fretted.highlight {
-    background: #dd4 url(/assets/fret-point.png) no-repeat center;
     opacity: 0.6;
 }
 
@@ -52,12 +62,4 @@
     height: 10px;
     top: -6px;
     left: -5px;
-}
-
-.open-string:hover, .open-string.fretted {
-    opacity: 1;
-    border: 5px solid #db0;
-    border-radius: 5px;
-    width: 0px;
-    height: 0px;
 }

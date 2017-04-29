@@ -1,6 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-
-type Chord = Array<number>;
+import { Chord } from '../types';
 
 @Component({
     selector: 'chord-selector',

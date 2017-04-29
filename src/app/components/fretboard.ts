@@ -33,10 +33,20 @@ export class FretboardComponent {
     private _chords = {};
     private _scales = {};
     private _stringsArray: Array<string> = [];
+    private _dotPositionsArray: Array<number>;
 
     @Input() width: number;
     @Input('fretPositions') _fretPositions: string;
     @Input('selectorType') selectorType: string;
+
+    @Input('dotPositions')
+    set _dotPositions(value: string) {
+        this._dotPositionsArray = value.split(',').map(x => parseInt(x));
+    }
+
+    get dotPositions(): Array<number> {
+        return this._dotPositionsArray;
+    }
 
     @Input('strings')
     set _strings(value: string) {
