@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ScaleService } from '../services/scale';
+import { Scale } from '../models/scale';
 
 @Component({
     selector: 'scale',
@@ -7,18 +8,15 @@ import { ScaleService } from '../services/scale';
 })
 export class ScaleComponent {
     @Input() name: string;
+    @Input() suffix: string;
 
     @Input()
-    set notes(value) {
-        let notes = value.split(',');
+    set intervals(value) {
+        let intervals = value.split(',').map(x => parseInt(x));
 
-        this._scaleService.addScale({
-            name: this.name,
-            notes
-        });
+        this._scaleService.addScale(new Scale(this.name, this.suffix, intervals));
     }
 
     constructor(private _scaleService: ScaleService) {
-
     }
 }

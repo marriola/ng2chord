@@ -3,7 +3,8 @@ import { ChordService } from '../services/chord';
 import { ScaleService } from '../services/scale';
 import { notes, getNoteIndex } from '../util';
 import { TonePlayer } from '../tone';
-import { Chord, Scale } from '../types';
+import { Scale } from '../models/scale';
+import { Chord } from '../models/chord';
 
 interface Fret {
     index: number;
@@ -142,7 +143,7 @@ export class FretboardComponent {
         this._scales = _scaleService.getScales();
 
         _chordService.chordSelected$.subscribe((name: string) => this.onSelectChord(name));
-        _scaleService.batchTones$.subscribe((scale: Scale) => this.onBatchTones(scale));
+        _scaleService.batchTones$.subscribe((scale: string[]) => this.onBatchTones(scale));
     }
 
     mouseover(string, fret): void {
@@ -188,7 +189,7 @@ export class FretboardComponent {
         }, timeout + length);
     }
 
-    onBatchTones(noteNames: Scale): void {
+    onBatchTones(noteNames: string[]): void {
         let tones = noteNames.map(name => notes[getNoteIndex(name)]);
         let length = 350;
 
@@ -215,6 +216,7 @@ export class FretboardComponent {
 
     isFretted(string, fret, point) {
         return (this.view == this.View.Chord && fret == point) ||
-            (this.view == this.View.Scale && fret < 5 && this.currentScale.includes(this.getNoteName(string, fret)));
+            (this.view == this.View.Scale && fret < 5 &&
+                this._scaleService.getScaleNotes().includes(this.getNoteName(string, fret)));
     }
 }

@@ -33,6 +33,7 @@ export class TonePlayer {
             osc.stop();
         }
         this._oscillators = [];
+        this.playing = false;
     }
 
     toggleTones(playing = !this.playing) {

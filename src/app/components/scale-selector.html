@@ -3,14 +3,22 @@
         Scales
     </div>
 
-    <select [(ngModel)]="currentScaleName">
-        <option *ngFor="let name of scaleNames" [value]="name">
-            {{name}} [ {{ (scales[name] || []).join(' ') }} ]
+    <select [(ngModel)]="currentKey">
+        <option *ngFor="let key of keys" [value]="key">
+            {{key}}
         </option>
     </select>
-    <br/>
+
+    <select [(ngModel)]="currentScaleName">
+        <option *ngFor="let name of scaleNames" [value]="name">
+            {{name}}
+        </option>
+    </select>
 
     <button type="button" (click)="playScale(currentScaleName)">
         Play
     </button>
+    <br/>
+
+    {{getScaleNotes()}}
 </div>

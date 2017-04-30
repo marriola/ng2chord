@@ -450,12 +450,17 @@ function getNoteIndex(name: string) {
     return notes.findIndex(x => x.note == name);
 }
 
+function getNoteByName(name: string) {
+    return notes[getNoteIndex(name)];
+}
+
 /*function stringFretToNote(string, fret): number {
 
 }
 */
 export {
     getNoteIndex,
+    getNoteByName,
     notes,
     noteFrequencies,
     noteNames
