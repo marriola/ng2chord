@@ -1,4 +1,6 @@
 import { Component, Input } from "@angular/core";
+import { ChordService } from '../services/chord';
+import { ScaleService } from '../services/scale';
 import { notes, getNoteIndex } from '../util';
 import { TonePlayer } from '../tone';
 import { Chord, Scale } from '../types';
@@ -17,7 +19,8 @@ interface Tone {
 @Component({
     selector: 'fretboard',
     templateUrl: './fretboard.html',
-    styleUrls: ['./fretboard.css']
+    styleUrls: ['./fretboard.css'],
+    providers: [ChordService, ScaleService]
 })
 export class FretboardComponent {
     View = {
@@ -30,12 +33,19 @@ export class FretboardComponent {
     private _currentChordName: string;
     private _currentScaleName: string;
     private _frets: Array<Fret>;
-    private _chords = {};
-    private _scales = {};
+    private _chords;
+    private _scales;
     private _stringsArray: Array<string> = [];
     private _dotPositionsArray: Array<number>;
     private _doubleDotPositionsArray: Array<number>;
 
+    view = this.View.Chord;
+    autoplay: boolean = true;
+    currentScale: Scale = null;
+    currentString: number = null;
+    currentFret: number = null;
+    scaleHighlight: string = null;
+    
     @Input() width: number;
     @Input('fretPositions') _fretPositions: string;
     @Input('selectorType') selectorType: string;
@@ -76,13 +86,6 @@ export class FretboardComponent {
     get currentChord(): Chord {
         return this._currentChord;
     }
-    
-    view = this.View.Chord;
-    autoplay: boolean = true;
-    currentScale: Scale = null;
-    currentString: number = null;
-    currentFret: number = null;
-    scaleHighlight: string = null;
     
     get frets(): Array<Fret> {
         if (!this._frets) {
@@ -137,6 +140,11 @@ export class FretboardComponent {
         let note = notes[noteIndex + this.currentFret + 1].note;
 
         return `${this.strings[this.currentString]} string, ${fret} (${note})`;
+    }
+
+    constructor(private _chordService: ChordService, private _scaleService: ScaleService) {
+        this._chords = _chordService.getChords();
+        this._scales = _scaleService.getScales();
     }
 
     mouseover(string, fret): void {

@@ -49,17 +49,6 @@
     background-color: #ad9f37;
 }
 
-/*.fret:hover,
-.fret.highlight {
-    background-color: #dd4;
-    opacity: 0.4;
-}
-
-.fret.fretted:hover,
-.fret.fretted.highlight {
-    opacity: 0.6;
-}*/
-
 .open-string {
     position: relative;
     display: inline-block;
