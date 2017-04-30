@@ -1,4 +1,4 @@
-<div class="panel">
+<div>
     <div class="title">
         Chords
     </div>
@@ -17,7 +17,7 @@
         </a>
     </div>
 
-    <input type="text" [(ngModel)]="newChordName" [style.margin-top.px]="5" />
+    <input type="text" [(ngModel)]="newChordName" />
     <button type="button" (click)="newChord()" [disabled]="newChordName == ''">
         New Chord
     </button>

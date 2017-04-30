@@ -1,41 +1,43 @@
-<label>
-    <input type="checkbox" [(ngModel)]="autoplay" /> Autoplay
-</label>
-<br/>
+<div class="content">
+    <label>
+        <input type="checkbox" [(ngModel)]="autoplay" /> Autoplay
+    </label>
+    <br/>
 
-<div class="fretboard" [style.width.px]="width" [style.position]="'relative'">
-    <div *ngFor="let point of currentChord; let string = index" [class]="'string s' + string">
+    <div class="fretboard" [style.width.px]="width" [style.position]="'relative'">
+        <div *ngFor="let point of currentChord; let string = index" [class]="'string s' + string">
+            <span
+                *ngFor="let fret of frets"
+                class="fret"
+                [class.highlight]="isHighlighted(string, fret.index, point)"
+                [class.open-string]="fret.index == 0"
+                [class.fretted]="isFretted(string, fret.index, point)"
+                [style.left.px]="fret.left"
+                [style.width.px]="fret.width"
+                [style.top.px]="fret.index == 0 ? null : string * 20"
+                (mouseover)="mouseover(string, fret.index)"
+                (click)="selectFret(string, fret.index)">
+            </span>
+        </div>
+    </div>
+
+    <div style="position: relative;">
         <span
             *ngFor="let fret of frets"
-            class="fret"
-            [class.highlight]="isHighlighted(string, fret.index, point)"
-            [class.open-string]="fret.index == 0"
-            [class.fretted]="isFretted(string, fret.index, point)"
-            [style.left.px]="fret.left"
-            [style.width.px]="fret.width"
-            [style.top.px]="fret.index == 0 ? null : string * 20"
-            (mouseover)="mouseover(string, fret.index)"
-            (click)="selectFret(string, fret.index)">
-        </span>
+            class="dot"
+            [style.display]="dotPositions.includes(fret.index) ? 'inline' : 'none'"
+            [style.left.px]="fret.left + fret.width / 2"></span>
+
+        <span
+            *ngFor="let fret of frets"
+            class="dot double"
+            [style.display]="doubleDotPositions.includes(fret.index) ? 'inline' : 'none'"
+            [style.left.px]="fret.left + fret.width / 2 - 3"></span>
     </div>
+
+    <div>{{stringAndFret}}</div>
+
+    <button type="button" (click)="_player.toggleTones()">
+        {{ _player.playing ? 'Stop' : 'Play' }}
+    </button>
 </div>
-
-<div style="position: relative;">
-    <span
-        *ngFor="let fret of frets"
-        class="dot"
-        [style.display]="dotPositions.includes(fret.index) ? 'inline' : 'none'"
-        [style.left.px]="fret.left + fret.width / 2"></span>
-
-    <span
-        *ngFor="let fret of frets"
-        class="dot double"
-        [style.display]="doubleDotPositions.includes(fret.index) ? 'inline' : 'none'"
-        [style.left.px]="fret.left + fret.width / 2 - 3"></span>
-</div>
-
-<div>{{stringAndFret}}</div>
-
-<button type="button" (click)="_player.toggleTones()">
-    {{ _player.playing ? 'Stop' : 'Play' }}
-</button>
