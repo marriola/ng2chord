@@ -4,7 +4,7 @@
     </label>
     <br/>
 
-    <div class="fretboard" [style.width.px]="width" [style.position]="'relative'">
+    <div class="fretboard" [style.width.px]="width">
         <div *ngFor="let point of currentChord; let string = index" [class]="'string s' + string">
             <span
                 *ngFor="let fret of frets"
@@ -21,7 +21,7 @@
         </div>
     </div>
 
-    <div style="position: relative;">
+    <div class="fret-markers">
         <span
             *ngFor="let fret of frets"
             class="dot"

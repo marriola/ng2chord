@@ -1,8 +1,14 @@
 .fretboard {
+    position: relative;
     margin: 20px 0px 20px 10px;
     padding-top: 15px;
     padding-bottom: 10px;
     background: #451a1a;
+}
+
+.fret-markers {
+    position: relative;
+    margin-left: 10px;
 }
 
 .string {
