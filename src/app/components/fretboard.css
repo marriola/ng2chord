@@ -25,6 +25,7 @@
 }
 
 .fret {
+    cursor: pointer;
     position: absolute;
     display: inline-block;
     height: 35px;

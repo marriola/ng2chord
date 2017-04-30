@@ -28,6 +28,8 @@ export class FretboardComponent {
         Scale: 1
     }
 
+    ViewTypes = Object.getOwnPropertyNames(this.View);
+
     private _player: TonePlayer;
     private _frets: Array<Fret>;
     private _chords;
@@ -152,6 +154,11 @@ export class FretboardComponent {
     }
 
     selectFret(string, fret): void {
+        if (this.view != this.View.Chord) {
+            this.view = this.View.Chord;
+            return;
+        }
+
         if (this.currentChord[string] == fret) {
             fret = null;
         }
@@ -200,7 +207,6 @@ export class FretboardComponent {
             },
             () => {
                 this.scaleHighlight = null;
-                this.view = this.View.Chord;
             });
     }
 

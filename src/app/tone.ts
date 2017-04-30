@@ -1,5 +1,5 @@
 import { notes, getNoteIndex } from './util';
-import { Chord, Scale } from './types';
+import { Chord } from './models/chord';
 
 export class TonePlayer {
     private _audio: AudioContext;

@@ -4,6 +4,13 @@
     </label>
     <br/>
 
+    <label>
+        <select [(ngModel)]="view">
+            <option *ngFor="let key of ViewTypes" [value]="View[key]">{{key}}</option>
+        </select>
+    </label>
+    <br/>
+
     <div class="fretboard" [style.width.px]="width">
         <div *ngFor="let point of currentChord; let string = index" [class]="'string s' + string">
             <span

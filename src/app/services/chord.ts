@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Subject } from 'rxjs/Subject';
-import { Chord } from '../types';
+import { Chord } from '../models/Chord';
 
 @Injectable()
 export class ChordService {
