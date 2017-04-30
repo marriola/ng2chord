@@ -3,7 +3,7 @@
         Scales
     </div>
 
-    <select [(ngModel)]="currentScaleName" (ngModelChange)="selectScale()">
+    <select [(ngModel)]="currentScaleName">
         <option *ngFor="let name of scaleNames" [value]="name">
             {{name}} [ {{ (scales[name] || []).join(' ') }} ]
         </option>

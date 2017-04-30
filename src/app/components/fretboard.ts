@@ -19,8 +19,7 @@ interface Tone {
 @Component({
     selector: 'fretboard',
     templateUrl: './fretboard.html',
-    styleUrls: ['./fretboard.css'],
-    providers: [ChordService, ScaleService]
+    styleUrls: ['./fretboard.css']
 })
 export class FretboardComponent {
     View = {
@@ -29,9 +28,6 @@ export class FretboardComponent {
     }
 
     private _player: TonePlayer;
-    private _currentChord: Chord;
-    private _currentChordName: string;
-    private _currentScaleName: string;
     private _frets: Array<Fret>;
     private _chords;
     private _scales;
@@ -41,7 +37,6 @@ export class FretboardComponent {
 
     view = this.View.Chord;
     autoplay: boolean = true;
-    currentScale: Scale = null;
     currentString: number = null;
     currentFret: number = null;
     scaleHighlight: string = null;
@@ -77,16 +72,31 @@ export class FretboardComponent {
     get strings(): Array<string> {
         return this._stringsArray;
     }
-    
-    set currentChord(value: Chord) {
-        this._currentChord = value;
-        this._player.currentChord = value;
+
+    get chords() {
+        return this._chords;
+    }
+
+    get chordNames(): Array<string> {
+        return Object.getOwnPropertyNames(this.chords);
     }
 
     get currentChord(): Chord {
-        return this._currentChord;
+        return this._chordService.getCurrentChord();
     }
     
+    get scales() {
+        return this._scales;
+    }
+
+    get scaleNames(): Array<string> {
+        return Object.getOwnPropertyNames(this.scales);
+    }
+
+    get currentScale(): Scale {
+        return this._scaleService.getCurrentScale();
+    }
+
     get frets(): Array<Fret> {
         if (!this._frets) {
             let fretPositions = this._fretPositions.split(',').map(x => parseFloat(x));
@@ -114,22 +124,6 @@ export class FretboardComponent {
         return this._frets;
     }
 
-    get chords() {
-        return this._chords;
-    }
-
-    get scales() {
-        return this._scales;
-    }
-
-    get chordNames(): Array<string> {
-        return Object.getOwnPropertyNames(this.chords);
-    }
-
-    get scaleNames(): Array<string> {
-        return Object.getOwnPropertyNames(this.scales);
-    }
-
     get stringAndFret(): string {
         if (this.currentString === null || this.currentFret === null) {
             return 'Click me';
@@ -145,6 +139,9 @@ export class FretboardComponent {
     constructor(private _chordService: ChordService, private _scaleService: ScaleService) {
         this._chords = _chordService.getChords();
         this._scales = _scaleService.getScales();
+
+        _chordService.chordSelected$.subscribe((name: string) => this.onSelectChord(name));
+        _scaleService.batchTones$.subscribe((scale: Scale) => this.onBatchTones(scale));
     }
 
     mouseover(string, fret): void {
@@ -163,37 +160,9 @@ export class FretboardComponent {
         }
     }
 
-    onSelectChord(name) {
-        this._currentChordName = name;
-        this.currentChord = this.chords[name];
+    onSelectChord(name: string): void {
+        this._player.currentChord = this._chordService.getCurrentChord();
         this._player.toggleTones(this.autoplay);
-    }
-
-    onSelectScale(name) {
-        this._currentScaleName = name;
-        this.currentScale = this._scales[name];
-    }
-
-    addChord(chord): void {
-        this._chords[chord.name] = chord.frets;
-        if (this.currentChord == null) {
-            this._currentChordName = chord.name;
-            this.currentChord = chord.frets;
-        }
-    }
-
-    onNewChord(name): void {
-        this._chords[name] = new Array(this.strings.length).fill(null);
-        this._currentChordName = name;
-        this.currentChord = this._chords[name];
-    }
-
-    addScale(scale): void {
-        this._scales[scale.name] = scale.notes;
-        if (this.currentScale == null) {
-            this._currentScaleName = scale.name;
-            this.currentScale = scale.notes;
-        }
     }
 
     batchTones(length: number, tones: Array<Tone>, callback: (tone) => void, done: () => void): void {
@@ -218,7 +187,7 @@ export class FretboardComponent {
         }, timeout + length);
     }
 
-    onBatchTones(noteNames: Array<string>): void {
+    onBatchTones(noteNames: Scale): void {
         let tones = noteNames.map(name => notes[getNoteIndex(name)]);
         let length = 350;
 

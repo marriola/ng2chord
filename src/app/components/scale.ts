@@ -1,5 +1,5 @@
-import { Component, Input, Host } from '@angular/core';
-import { FretboardComponent } from './fretboard';
+import { Component, Input } from '@angular/core';
+import { ScaleService } from '../services/scale';
 
 @Component({
     selector: 'scale',
@@ -12,12 +12,13 @@ export class ScaleComponent {
     set notes(value) {
         let notes = value.split(',');
 
-        this.parent.addScale({
+        this._scaleService.addScale({
             name: this.name,
             notes
         });
     }
 
-    constructor(@Host() private parent: FretboardComponent) {
+    constructor(private _scaleService: ScaleService) {
+
     }
 }

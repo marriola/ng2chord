@@ -4,31 +4,36 @@ import { Chord } from '../types';
 
 @Component({
     selector: 'chord-selector',
-    templateUrl: './chord-selector.html',
-    providers: [ChordService]
+    templateUrl: './chord-selector.html'
 })
 export class ChordSelectorComponent {
     @Input() selectorType: string;
-    @Input() currentChordName: string;
-    @Output() select: EventEmitter<string> = new EventEmitter();
-    @Output() new: EventEmitter<string> = new EventEmitter();
 
-    newChordName: string = "";
+    @Input()
+    set strings(value) {
+        this._strings = parseInt(value);
+    }
+
+    private _strings: number;
+    private newChordName: string = "";
 
     get chordNames(): Array<string> {
         return Object.getOwnPropertyNames(this._chordService.getChords());
     }
 
+    get currentChordName(): string {
+        return this._chordService.getCurrentChordName();
+    }
+
+    set currentChordName(name: string) {
+        this._chordService.setCurrentChordName(name);
+    }
+
     constructor(private _chordService: ChordService) {
     }
 
-    selectChord(name) {
-        this.currentChordName = name;
-        this.select.emit(name);
-    }
-
     newChord() {
-        this.new.emit(this.newChordName);
+        this._chordService.newChord(this.newChordName, this._strings);
         this.newChordName = "";
     }
 }

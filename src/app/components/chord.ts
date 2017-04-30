@@ -1,11 +1,12 @@
-import { Component, Host, Input } from '@angular/core';
-import { FretboardComponent } from './fretboard';
+import { Component, Input } from '@angular/core';
+import { ChordService } from '../services/chord';
 
 @Component({
     selector: 'chord',
     template: ''
 })
 export class ChordComponent {
+    @Input() strings: number;
     @Input() name: string;
 
     @Input()
@@ -14,12 +15,12 @@ export class ChordComponent {
             .split(',')
             .map(x => x == '-' ? null : parseInt(x));
 
-        this.parent.addChord({
+        this._chordService.addChord({
             name: this.name,
             frets
         });
     }
 
-    constructor(@Host() private parent: FretboardComponent) {
+    constructor(private _chordService: ChordService) {
     }
 }

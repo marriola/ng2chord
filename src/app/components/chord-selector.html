@@ -4,7 +4,7 @@
     </div>
     
     <div *ngIf="selectorType == 'list'">
-        <select name="ddlChord" [(ngModel)]="currentChordName" (ngModelChange)="selectChord(currentChordName)">
+        <select name="ddlChord" [(ngModel)]="currentChordName">
             <option *ngFor="let name of chordNames" [ngValue]="name">{{name}}</option>
         </select>
     </div>
