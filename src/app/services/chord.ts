@@ -41,5 +41,6 @@ export class ChordService {
         this._chords[name] = new Array(numStrings).fill(null);
         this._currentChordName = name;
         this._currentChord = this._chords[name];
+        this._chordSelectedSource.next(name);
     }
 }
