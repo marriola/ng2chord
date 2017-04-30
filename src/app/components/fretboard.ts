@@ -170,6 +170,7 @@ export class FretboardComponent {
     }
 
     onSelectChord(name: string): void {
+        this.view = this.View.Chord;
         this._player.currentChord = this._chordService.getCurrentChord();
         this._player.toggleTones(this.autoplay);
     }
