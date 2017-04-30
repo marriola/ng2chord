@@ -67,6 +67,7 @@ export class FretboardComponent {
     set _strings(value: string) {
         this._stringsArray = value.split(',');
         this._player = new TonePlayer(this._stringsArray);
+        this._player.currentChord = this._chordService.getCurrentChord();
     }
 
     get strings(): Array<string> {
