@@ -26,17 +26,17 @@ export class FretboardComponent {
     View = {
         Chord: 0,
         Scale: 1
-    }
+    };
 
     ViewTypes = Object.getOwnPropertyNames(this.View);
 
     private _player: TonePlayer;
-    private _frets: Array<Fret>;
+    private _frets: Fret[];
     private _chords;
     private _scales;
-    private _stringsArray: Array<string> = [];
-    private _dotPositionsArray: Array<number>;
-    private _doubleDotPositionsArray: Array<number>;
+    private _stringsArray: string[] = [];
+    private _dotPositionsArray: number[];
+    private _doubleDotPositionsArray: number[];
 
     view = this.View.Chord;
     autoplay: boolean = true;
@@ -53,7 +53,7 @@ export class FretboardComponent {
         this._dotPositionsArray = value.split(',').map(x => parseInt(x));
     }
 
-    get dotPositions(): Array<number> {
+    get dotPositions(): number[] {
         return this._dotPositionsArray;
     }
 
@@ -62,7 +62,7 @@ export class FretboardComponent {
         this._doubleDotPositionsArray = value.split(',').map(x => parseInt(x));
     }
 
-    get doubleDotPositions(): Array<number> {
+    get doubleDotPositions(): number[] {
         return this._doubleDotPositionsArray;
     }
 
@@ -73,7 +73,7 @@ export class FretboardComponent {
         this._player.currentChord = this._chordService.getCurrentChord();
     }
 
-    get strings(): Array<string> {
+    get strings(): string[] {
         return this._stringsArray;
     }
 
@@ -81,7 +81,7 @@ export class FretboardComponent {
         return this._chords;
     }
 
-    get chordNames(): Array<string> {
+    get chordNames(): string[] {
         return Object.getOwnPropertyNames(this.chords);
     }
 
@@ -93,7 +93,7 @@ export class FretboardComponent {
         return this._scales;
     }
 
-    get scaleNames(): Array<string> {
+    get scaleNames(): string[] {
         return Object.getOwnPropertyNames(this.scales);
     }
 
@@ -101,7 +101,7 @@ export class FretboardComponent {
         return this._scaleService.getCurrentScale();
     }
 
-    get frets(): Array<Fret> {
+    get frets(): Fret[] {
         if (!this._frets) {
             let fretPositions = this._fretPositions.split(',').map(x => parseFloat(x));
             // The imaginary 0th fret just before the 1st fret has position 0 so that its width can be
@@ -180,7 +180,7 @@ export class FretboardComponent {
         this._player.toggleTones(this.autoplay);
     }
 
-    batchTones(length: number, tones: Array<Tone>, callback: (tone) => void, done: () => void): void {
+    batchTones(length: number, tones: Tone[], callback: (tone) => void, done: () => void): void {
         let timeout: number = 0;
 
         this._player.stopTones();

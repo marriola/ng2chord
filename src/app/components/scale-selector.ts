@@ -9,7 +9,7 @@ import { notes, getNoteIndex } from '../util';
     templateUrl: './scale-selector.html'
 })
 export class ScaleSelectorComponent {
-    keys: Array<string> = ['C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2'];
+    keys: string[] = ['C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2'];
 
     get currentKey(): string {
         return this._scaleService.getCurrentKey();
@@ -27,7 +27,7 @@ export class ScaleSelectorComponent {
         this._scaleService.setCurrentScaleName(name);
     }
 
-    get scaleNames(): Array<string> {
+    get scaleNames(): string[] {
         return Object.getOwnPropertyNames(this._scaleService.getScales());
     }
 
@@ -44,5 +44,21 @@ export class ScaleSelectorComponent {
 
     playScale(name): void {
         this._scaleService.playScale(name);
+    }
+
+    decrement(): void {
+        let keyIndex: number = this.keys.indexOf(this._scaleService.getCurrentKey());
+        if (--keyIndex < 0) {
+            keyIndex = this.keys.length - 1;
+        }
+        this._scaleService.setCurrentKey(this.keys[keyIndex]);
+    }
+
+    increment(): void {
+        let keyIndex: number = this.keys.indexOf(this._scaleService.getCurrentKey());
+        if (++keyIndex == this.keys.length) {
+            keyIndex = 0;
+        }
+        this._scaleService.setCurrentKey(this.keys[keyIndex]);
     }
 }

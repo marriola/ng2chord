@@ -17,7 +17,7 @@ export class ChordSelectorComponent {
     private _strings: number;
     private newChordName: string = "";
 
-    get chordNames(): Array<string> {
+    get chordNames(): string[] {
         return Object.getOwnPropertyNames(this._chordService.getChords());
     }
 

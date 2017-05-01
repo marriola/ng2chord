@@ -9,6 +9,9 @@
         </option>
     </select>
 
+    <button (click)="decrement()">-</button>
+    <button (click)="increment()">+</button>
+
     <select [(ngModel)]="currentScaleName">
         <option *ngFor="let name of scaleNames" [value]="name">
             {{name}}

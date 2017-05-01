@@ -3,12 +3,12 @@ import { Chord } from './models/chord';
 
 export class TonePlayer {
     private _audio: AudioContext;
-    private _oscillators: Array<OscillatorNode> = [];
+    private _oscillators: OscillatorNode[] = [];
 
     currentChord: Chord = null;
     playing: boolean = false;
 
-    constructor(private _strings: Array<string>) {
+    constructor(private _strings: string[]) {
         this._audio = new AudioContext();
     }
 
