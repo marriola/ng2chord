@@ -145,7 +145,12 @@ export class FretboardComponent {
         this._scales = _scaleService.getScales();
 
         _chordService.chordSelected$.subscribe((name: string) => this.onSelectChord(name));
+
         _scaleService.batchTones$.subscribe((scale: string[]) => this.onBatchTones(scale));
+
+        _scaleService.scaleSelected$.subscribe(() => {
+            this.view = this.View.Scale;
+        });
     }
 
     mouseover(string, fret): void {
