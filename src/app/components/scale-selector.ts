@@ -17,8 +17,10 @@ export class ScaleSelectorComponent {
 
     set currentKey(key: string) {
         this._scaleService.setCurrentKey(key);
+        // trigger scale change event so fretboard changes to scale view
+        this._scaleService.setCurrentScaleName(this.currentScaleName);
     }
-
+    
     get currentScaleName(): string {
         return this._scaleService.getCurrentScaleName();
     }
@@ -39,7 +41,7 @@ export class ScaleSelectorComponent {
     }
 
     getScaleNotes(): string {
-        return this._scaleService.getCurrentScale().inKeyOf(this._scaleService.getCurrentKey()).join(' - ');
+        return this._scaleService.getCurrentScale().inKeyOf(this.currentKey).join(' - ');
     }
 
     playScale(name): void {
@@ -47,18 +49,18 @@ export class ScaleSelectorComponent {
     }
 
     decrement(): void {
-        let keyIndex: number = this.keys.indexOf(this._scaleService.getCurrentKey());
+        let keyIndex: number = this.keys.indexOf(this.currentKey);
         if (--keyIndex < 0) {
             keyIndex = this.keys.length - 1;
         }
-        this._scaleService.setCurrentKey(this.keys[keyIndex]);
+        this.currentKey = this.keys[keyIndex];
     }
 
     increment(): void {
-        let keyIndex: number = this.keys.indexOf(this._scaleService.getCurrentKey());
+        let keyIndex: number = this.keys.indexOf(this.currentKey);
         if (++keyIndex == this.keys.length) {
             keyIndex = 0;
         }
-        this._scaleService.setCurrentKey(this.keys[keyIndex]);
+        this.currentKey = this.keys[keyIndex];
     }
 }
