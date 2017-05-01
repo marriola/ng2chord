@@ -68,7 +68,6 @@ export class ScaleService {
     }
 
     playScale(name: string): void {
-        console.log(`scale service: batch ${name}`);
         this._batchTonesSource.next(this._scales[name].inKeyOf(this._currentKey));
     }
 }
