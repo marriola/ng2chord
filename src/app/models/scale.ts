@@ -1,7 +1,7 @@
 import { notes, getNoteIndex } from '../util';
 
 export class Scale {
-    constructor(public name: string, public suffix: string, public intervals: number[]) {
+    constructor(public name: string, public intervals: number[]) {
     }
 
     inKeyOf(key: string): string[] {

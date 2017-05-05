@@ -7,7 +7,7 @@ export class ScaleService {
     private _scales: any = {};
     private _currentScale: Scale;
     private _currentScaleName: string;
-    private _currentKey: string = 'E2';
+    private _currentKey: string = 'E3';
     private _scaleNotes: string[];
 
     private _scaleSelectedSource = new Subject<string>();
