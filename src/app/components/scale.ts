@@ -8,7 +8,6 @@ import { Scale } from '../models/scale';
 })
 export class ScaleComponent {
     @Input() name: string;
-    @Input() suffix: string;
 
     @Input()
     set intervals(value) {

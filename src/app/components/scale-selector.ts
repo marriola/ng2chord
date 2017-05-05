@@ -9,7 +9,7 @@ import { notes, getNoteIndex } from '../util';
     templateUrl: './scale-selector.html'
 })
 export class ScaleSelectorComponent {
-    keys: string[] = ['C2', 'C#2', 'D2', 'D#2', 'E2', 'F2', 'F#2', 'G2', 'G#2', 'A2', 'A#2', 'B2'];
+    keys: string[] = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'].map(x => x + '3');
 
     get currentKey(): string {
         return this._scaleService.getCurrentKey();
