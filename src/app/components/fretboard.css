@@ -40,14 +40,14 @@
     display: inline-block;
     position: relative;
     left: calc(50% - 5px);
-    top: 8px;
+    top: 10px;
     border-radius: 10px;
     border-color: #dd4;
     border: 5px solid #dd4;
 }
 
 .fret.open-string.fretted::after {
-    top: calc(50% - 5px);
+    top: calc(50% - 4px);
 }
 
 .fret:hover,
